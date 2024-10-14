@@ -1,0 +1,369 @@
+about:
+  date: October 14, 2024 15:58:25
+  recent_changes: works with modified safrs-react-admin
+  version: 0.0.0
+api_root: '{http_type}://{swagger_host}:{port}/{api}'
+authentication: '{system-default}'
+info:
+  number_relationships: 13
+  number_tables: 12
+info_toggle_checked: true
+resources:
+  Bill:
+    attributes:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+    - name: customer_id
+      required: true
+    - name: order_id
+      required: true
+    - name: total_amount
+      required: true
+    description: Stores billing information, including customer ID and total amount.
+    info_list: Stores billing information, including customer ID and total amount.
+    tab_groups:
+    - direction: toone
+      fks:
+      - customer_id
+      name: customer
+      resource: Customer
+    - direction: toone
+      fks:
+      - order_id
+      name: order
+      resource: Order
+    type: Bill
+    user_key: id
+  Chef:
+    attributes:
+    - label: ' name*'
+      name: name
+      required: true
+      search: true
+      sort: true
+    - name: restaurant_id
+      required: true
+    - name: id
+    description: Information about chefs, including name and restaurant ID.
+    info_list: Information about chefs, including name and restaurant ID.
+    tab_groups:
+    - direction: toone
+      fks:
+      - restaurant_id
+      name: restaurant
+      resource: Restaurant
+    type: Chef
+    user_key: name
+  Customer:
+    attributes:
+    - label: ' name*'
+      name: name
+      required: true
+      search: true
+      sort: true
+    - name: email
+      required: true
+    - name: id
+    description: Customer details including name and contact information.
+    info_list: Customer details including name and contact information.
+    tab_groups:
+    - direction: tomany
+      fks:
+      - customer_id
+      name: BillList
+      resource: Bill
+    - direction: tomany
+      fks:
+      - customer_id
+      name: OrderList
+      resource: Order
+    - direction: tomany
+      fks:
+      - customer_id
+      name: ReservationList
+      resource: Reservation
+    - direction: tomany
+      fks:
+      - customer_id
+      name: ReviewList
+      resource: Review
+    type: Customer
+    user_key: name
+  Ingredient:
+    attributes:
+    - label: ' name*'
+      name: name
+      required: true
+      search: true
+      sort: true
+    - name: quantity_in_stock
+      required: true
+    - name: id
+    description: Stores information about ingredients used in menus.
+    info_list: Stores information about ingredients used in menus.
+    tab_groups:
+    - direction: tomany
+      fks:
+      - ingredient_id
+      name: InventoryList
+      resource: Inventory
+    - direction: tomany
+      fks:
+      - ingredient_id
+      name: SupplyOrderList
+      resource: SupplyOrder
+    type: Ingredient
+    user_key: name
+  Inventory:
+    attributes:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+    - name: ingredient_id
+      required: true
+    - name: restaurant_id
+      required: true
+    - name: quantity
+      required: true
+    description: Maintains inventory records including restaurant ID and ingredient
+      ID.
+    info_list: Maintains inventory records including restaurant ID and ingredient
+      ID.
+    tab_groups:
+    - direction: toone
+      fks:
+      - ingredient_id
+      name: ingredient
+      resource: Ingredient
+    - direction: toone
+      fks:
+      - restaurant_id
+      name: restaurant
+      resource: Restaurant
+    type: Inventory
+    user_key: id
+  Menu:
+    attributes:
+    - label: ' item_name*'
+      name: item_name
+      required: true
+      search: true
+      sort: true
+    - name: restaurant_id
+      required: true
+    - name: price
+      required: true
+    - name: id
+    description: Stores menu information, including restaurant ID and item details.
+    info_list: Stores menu information, including restaurant ID and item details.
+    tab_groups:
+    - direction: toone
+      fks:
+      - restaurant_id
+      name: restaurant
+      resource: Restaurant
+    type: Menu
+    user_key: item_name
+  Order:
+    attributes:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+    - name: customer_id
+      required: true
+    - name: order_date
+      required: true
+    - name: status
+      required: true
+    description: Stores orders placed by customers, including order date and status.
+    info_list: Stores orders placed by customers, including order date and status.
+    tab_groups:
+    - direction: tomany
+      fks:
+      - order_id
+      name: BillList
+      resource: Bill
+    - direction: toone
+      fks:
+      - customer_id
+      name: customer
+      resource: Customer
+    type: Order
+    user_key: id
+  Reservation:
+    attributes:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+    - name: customer_id
+      required: true
+    - name: restaurant_id
+      required: true
+    - name: reservation_date
+      required: true
+    description: Stores reservation details, including customer ID and restaurant
+      ID.
+    info_list: Stores reservation details, including customer ID and restaurant ID.
+    tab_groups:
+    - direction: toone
+      fks:
+      - customer_id
+      name: customer
+      resource: Customer
+    - direction: toone
+      fks:
+      - restaurant_id
+      name: restaurant
+      resource: Restaurant
+    type: Reservation
+    user_key: id
+  Restaurant:
+    attributes:
+    - label: ' name*'
+      name: name
+      required: true
+      search: true
+      sort: true
+    - name: location
+      required: true
+    - name: id
+    description: Stores restaurant information, including name and location.
+    info_list: Stores restaurant information, including name and location.
+    tab_groups:
+    - direction: tomany
+      fks:
+      - restaurant_id
+      name: ChefList
+      resource: Chef
+    - direction: tomany
+      fks:
+      - restaurant_id
+      name: InventoryList
+      resource: Inventory
+    - direction: tomany
+      fks:
+      - restaurant_id
+      name: MenuList
+      resource: Menu
+    - direction: tomany
+      fks:
+      - restaurant_id
+      name: ReservationList
+      resource: Reservation
+    - direction: tomany
+      fks:
+      - restaurant_id
+      name: RestaurantTableList
+      resource: RestaurantTable
+    - direction: tomany
+      fks:
+      - restaurant_id
+      name: ReviewList
+      resource: Review
+    type: Restaurant
+    user_key: name
+  RestaurantTable:
+    attributes:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+    - name: restaurant_id
+      required: true
+    - name: capacity
+      required: true
+    description: Information about tables in the restaurant.
+    info_list: Information about tables in the restaurant.
+    tab_groups:
+    - direction: toone
+      fks:
+      - restaurant_id
+      name: restaurant
+      resource: Restaurant
+    type: RestaurantTable
+    user_key: id
+  Review:
+    attributes:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+    - name: customer_id
+      required: true
+    - name: restaurant_id
+      required: true
+    - name: rating
+      required: true
+    - name: comment
+    description: Stores reviews given by customers for restaurants.
+    info_list: Stores reviews given by customers for restaurants.
+    tab_groups:
+    - direction: toone
+      fks:
+      - customer_id
+      name: customer
+      resource: Customer
+    - direction: toone
+      fks:
+      - restaurant_id
+      name: restaurant
+      resource: Restaurant
+    type: Review
+    user_key: id
+  SupplyOrder:
+    attributes:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+    - name: ingredient_id
+      required: true
+    - name: order_date
+      required: true
+    - name: quantity
+      required: true
+    description: Details of supply orders made for ingredients.
+    info_list: Details of supply orders made for ingredients.
+    tab_groups:
+    - direction: toone
+      fks:
+      - ingredient_id
+      name: ingredient
+      resource: Ingredient
+    type: SupplyOrder
+    user_key: id
+settings:
+  HomeJS: /admin-app/home.js
+  max_list_columns: 8
+  style_guide:
+    applicationLocales:
+    - en
+    - es
+    currency_symbol: $
+    currency_symbol_position: left
+    date_format: LL
+    decimal_max: '1000000000'
+    decimal_min: '0'
+    decimal_separator: .
+    detail_mode: tab
+    edit_on_mode: dblclick
+    include_translation: 'false'
+    keycloak_client_id: alsclient
+    keycloak_realm: kcals
+    keycloak_url: http://localhost:8080
+    locale: en
+    max_decimal_digits: '4'
+    min_decimal_digits: '2'
+    new_mode: dialog
+    pick_style: list
+    row_height: small,
+    serviceType: OntimizeEE
+    startSessionPath: /auth/login
+    style: light
+    thousand_separator: ','
+    use_keycloak: 'false'

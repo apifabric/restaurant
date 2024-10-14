@@ -1,0 +1,99 @@
+// Copy this text, paste to https://dbdiagram.io/d
+// Or, https://databasediagram.com/app
+
+Table Bill {
+    id INTEGER [primary key]
+    customer_id INTEGER 
+    order_id INTEGER 
+    total_amount FLOAT 
+    }
+
+Table Customer {
+    id INTEGER [primary key]
+    name VARCHAR 
+    email VARCHAR 
+    }
+
+Table Order {
+    id INTEGER [primary key]
+    customer_id INTEGER 
+    order_date DATETIME 
+    status VARCHAR 
+    }
+
+Table Chef {
+    id INTEGER [primary key]
+    name VARCHAR 
+    restaurant_id INTEGER 
+    }
+
+Table Restaurant {
+    id INTEGER [primary key]
+    name VARCHAR 
+    location VARCHAR 
+    }
+
+Table Ingredient {
+    id INTEGER [primary key]
+    name VARCHAR 
+    quantity_in_stock FLOAT 
+    }
+
+Table Inventory {
+    id INTEGER [primary key]
+    restaurant_id INTEGER 
+    ingredient_id INTEGER 
+    quantity FLOAT 
+    }
+
+Table Menu {
+    id INTEGER [primary key]
+    restaurant_id INTEGER 
+    item_name VARCHAR 
+    price FLOAT 
+    }
+
+Table Reservation {
+    id INTEGER [primary key]
+    customer_id INTEGER 
+    restaurant_id INTEGER 
+    reservation_date DATETIME 
+    }
+
+Table RestaurantTable {
+    id INTEGER [primary key]
+    restaurant_id INTEGER 
+    capacity INTEGER 
+    }
+
+Table Review {
+    id INTEGER [primary key]
+    customer_id INTEGER 
+    restaurant_id INTEGER 
+    rating INTEGER 
+    comment TEXT 
+    }
+
+Table SupplyOrder {
+    id INTEGER [primary key]
+    ingredient_id INTEGER 
+    order_date DATETIME 
+    quantity FLOAT 
+    }
+
+
+
+// Relationships
+    Ref: Bill.(customer_id) < Customer.(id)
+    Ref: Bill.(order_id) < Order.(id)
+    Ref: Order.(customer_id) < Customer.(id)
+    Ref: Chef.(restaurant_id) < Restaurant.(id)
+    Ref: Inventory.(ingredient_id) < Ingredient.(id)
+    Ref: Inventory.(restaurant_id) < Restaurant.(id)
+    Ref: Menu.(restaurant_id) < Restaurant.(id)
+    Ref: Reservation.(customer_id) < Customer.(id)
+    Ref: Reservation.(restaurant_id) < Restaurant.(id)
+    Ref: RestaurantTable.(restaurant_id) < Restaurant.(id)
+    Ref: Review.(customer_id) < Customer.(id)
+    Ref: Review.(restaurant_id) < Restaurant.(id)
+    Ref: SupplyOrder.(ingredient_id) < Ingredient.(id)
